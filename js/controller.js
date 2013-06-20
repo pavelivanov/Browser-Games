@@ -46,9 +46,11 @@ declare('Game.Controller', {
 		});
 
 
-		/* layer */
-		this.layer = this.app.createLayer({ invoke: true, name: 'main' });
+		/* layers */
+		this.layer = this.app.createLayer({ invoke: true, name: 'main', zIndex: 1 });
 		this.layer.dom.element.css({background: 'url(img/bg.png)'});
+
+		this.shadowLayer = this.app.createLayer({ invoke: true, name: 'shadow', zIndex: 2 });
 
 
 		/* animate */
@@ -61,7 +63,7 @@ declare('Game.Controller', {
 
 
 		this.createUser();
-
+		//this.createShadowUser();
 	},
 
 	createUser: function () {
@@ -71,9 +73,21 @@ declare('Game.Controller', {
 		})];
 	},
 
-	createAnimation: function (img, w, h, delay) {
-		console.log(this.images.get(img));
+	createShadowUser: function () {
+		var s = this.settings.get('fieldSize');
 
+		this.shadowUser = new Game.ShadowUser(this.shadowLayer, {
+			controller: this,
+			user: this.users[0],
+			mouse: this.mouse,
+			shape: new Rectangle({
+				from: new Point(0,0),
+				size: new Point(s.x, s.y - 50)
+			})
+		});
+	},
+
+	createAnimation: function (img, w, h, delay) {
 		return new Animation.Sheet({
 			frames: new Animation.Frames( this.images.get(img), w, h ),
 			delay : delay

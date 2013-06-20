@@ -24,6 +24,8 @@ declare('Game.User', User.Default, {
 		var size = this.size,
 			fieldSize = this.fieldSize = this.globalSettings.get('fieldSize');
 
+		this.mouse = this.controller.mouse.point;
+
 		// TODO Сделать рандомный выбор спавна
 		this.shape = new Rectangle(
 			100 - (size.x / 2),
@@ -109,6 +111,15 @@ declare('Game.User', User.Default, {
 	},
 
 	renderTo: function (ctx, resources) {
+//		var m = this.mouse,
+//			g = ctx.createRadialGradient(m.x, m.y, 40, m.x, m.y, 20),
+//			amb = 'rgba(0,0,0,0)';
+//
+//		g.addColorStop(0, 'rgba(0,0,0,1)');
+//		g.addColorStop(1, amb);
+//
+//		ctx.fill(this.shape, g);
+
 		ctx.drawImage({
 			image: resources.get('images').get(this.img),
 			draw : this.shape,

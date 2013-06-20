@@ -13,15 +13,7 @@ declare('Skills.Skill', Skills.Default, {
 		var p1 = this.mousePos,
 			p2 = this.position;
 
-		var calcAngle = Math.atan2(p1.y - p2.y, p1.x - p2.x);
-//
-//		if (calcAngle < 0) {
-//			calcAngle = Math.abs(calcAngle);
-//		} else {
-//			calcAngle = 360 - calcAngle;
-//		}
-
-		return calcAngle;
+		return Math.atan2(p1.y - p2.y, p1.x - p2.x);
 	},
 
 	getSettingsByType: {
