@@ -41,6 +41,10 @@ declare('User.Manipulator', {
 
 	// INIT -------------------------------------------------------------------------------------- /
 
+	get controller () {
+		return this.owner.settings.get('controller');
+	},
+
 	initialize: function (uses) {
 		this.keyboard = new atom.Keyboard();
 
@@ -98,13 +102,15 @@ declare('User.Manipulator', {
 			skillSets = user.skillsChoosed[skillNum];
 
 		if (skillSets) {
-			new Skills.Skill(user.layer, {
-				controller: user.controller,
-				position: user.position,
-				mousePos: user.controller.mouse.point.clone(),
-				startPos: user.position.clone(),
-				sets: skillSets
-			})
+			this.controller.collisions.add(
+				new Skills.Skill(user.layer, {
+					controller: user.controller,
+					position: user.position,
+					mousePos: user.controller.mouse.point.clone(),
+					startPos: user.position.clone(),
+					sets: skillSets
+				})
+			);
 		}
 	},
 

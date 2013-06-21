@@ -13,10 +13,13 @@ declare('Skills.Skill', Skills.Default, {
 		var p1 = this.mousePos,
 			p2 = this.position;
 
-		return Math.atan2(p1.y - p2.y, p1.x - p2.x);
+		var calcAngle = Math.atan2(p1.y - p2.y, p1.x - p2.x);
+
+		return calcAngle;
 	},
 
 	getSettingsByType: {
+		// TODO решить как будет передаваться тип
 		ground: function () {
 
 		}

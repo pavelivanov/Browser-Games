@@ -1,7 +1,9 @@
 declare('Game.Controller', {
 
 	settings: {
-		fieldSize: new Size(810, 650)
+		fieldSize: new Size(810, 650),
+		cells: new Size(27, 20),
+		cellSize: new Size(30, 30)
 	},
 
 	initialize: function () {
@@ -26,11 +28,15 @@ declare('Game.Controller', {
 	init: function (images) {
 
 		this.images = images;
-
 		this.fieldRectangle = new Rectangle({
 			from: new Point(0,0),
 			size: this.settings.get('fieldSize')
 		});
+
+
+		/* collisions */
+		this.collisions = new Game.Collisions(this);
+		atom.frame.add(this.collisions.update);
 
 
 		/* app */
@@ -46,11 +52,9 @@ declare('Game.Controller', {
 		});
 
 
-		/* layers */
-		this.layer = this.app.createLayer({ invoke: true, name: 'main', zIndex: 1 });
+		/* layer */
+		this.layer = this.app.createLayer({ invoke: true, name: 'main' });
 		this.layer.dom.element.css({background: 'url(img/bg.png)'});
-
-		this.shadowLayer = this.app.createLayer({ invoke: true, name: 'shadow', zIndex: 2 });
 
 
 		/* animate */
@@ -63,7 +67,10 @@ declare('Game.Controller', {
 
 
 		this.createUser();
-		//this.createShadowUser();
+		this.calculateMap();
+		this.createBlocks();
+
+		this.collisions.add(this.users[0]);
 	},
 
 	createUser: function () {
@@ -73,25 +80,48 @@ declare('Game.Controller', {
 		})];
 	},
 
-	createShadowUser: function () {
-		var s = this.settings.get('fieldSize');
+	calculateMap: function () {
+		var cS = this.settings.get('cellSize');
+		this.map = [];
 
-		this.shadowUser = new Game.ShadowUser(this.shadowLayer, {
-			controller: this,
-			user: this.users[0],
-			mouse: this.mouse,
-			shape: new Rectangle({
-				from: new Point(0,0),
-				size: new Point(s.x, s.y - 50)
-			})
-		});
+		for (var i=0; i<map.length; i++) {
+			var line = map[i];
+
+			for (var k=0; k<line.length; k++) {
+				var cell = line[k];
+
+				if (cell == 'X') {
+					this.map.push(new Point(k * cS.width, i * cS.height));
+				}
+			}
+		}
 	},
 
-	createAnimation: function (img, w, h, delay) {
-		return new Animation.Sheet({
-			frames: new Animation.Frames( this.images.get(img), w, h ),
-			delay : delay
-		});
+	createBlocks: function () {
+		var cell, map = this.map;
+
+		for (cell = 0; cell<map.length; cell++) {
+			var pos = map[cell],
+				size = this.settings.get('cellSize');
+
+			this.collisions.add(
+				new Map.Block(this.layer, {
+					shape: new Rectangle(
+						pos.x, pos.y,
+						size.width, size.height
+					)
+				})
+			);
+		}
 	}
+
+//	createAnimation: function (img, w, h, delay) {
+//		console.log(this.images.get(img));
+//
+//		return new Animation.Sheet({
+//			frames: new Animation.Frames( this.images.get(img), w, h ),
+//			delay : delay
+//		});
+//	}
 
 });

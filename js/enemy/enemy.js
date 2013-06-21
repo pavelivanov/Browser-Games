@@ -1,0 +1,3 @@
+declare('Game.Enemy', {
+
+});

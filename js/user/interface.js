@@ -7,7 +7,7 @@ declare('User.Interface', App.Element, {
 	},
 
 	_configure: function () {
-		this.settings.properties(this, ['fieldSize', 'user', 'color', 'value', 'maxValue']);
+		this.settings.properties(this, ['fieldSize', 'user', 'shape', 'color', 'value', 'maxValue']);
 
 		this.textShape = this.shape.clone();
 		this.setShapeWidth();

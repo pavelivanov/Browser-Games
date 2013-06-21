@@ -20,7 +20,7 @@ declare('Skills.Default', App.Element, {
 		if (
 			pos.x > field.width ||
 			pos.x < 0 ||
-			pos.y > field.height - 60 ||
+			pos.y > field.height - 50 ||
 			pos.y < 0
 		) this.die();
 
@@ -28,7 +28,7 @@ declare('Skills.Default', App.Element, {
 	},
 
 	die: function () {
-		//this.controller.collisions.remove(this);
+		this.controller.collisions.remove(this);
 		this.destroy();
 	},
 
