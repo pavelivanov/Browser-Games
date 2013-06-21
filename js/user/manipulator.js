@@ -11,8 +11,8 @@ declare('User.Manipulator', {
 		},
 
 		skills: {
-			s1: 'n1',
-			s2: 'n2',
+			s1: 'click',
+			s2: 'contextmenu',
 			s3: 'n3',
 			s4: 'n4',
 			s5: 'n5'
@@ -21,19 +21,35 @@ declare('User.Manipulator', {
 
 	states: {
 		top: [
-			function () { this.deltaSpeed.y -= 1; this.img = 'hero_1:top'; },
+			function () {
+				this.deltaSpeed.y -= 1;
+				this.img = 'hero_1:top';
+				this.stopSpeed.y = 1;
+			},
 			function () { this.deltaSpeed.y += 1; }
 		],
 		bot: [
-			function () { this.deltaSpeed.y += 1; this.img = 'hero_1:bot'; },
+			function () {
+				this.deltaSpeed.y += 1;
+				this.img = 'hero_1:bot';
+				this.stopSpeed.y = 1;
+			},
 			function () { this.deltaSpeed.y -= 1; }
 		],
 		left: [
-			function () { this.deltaSpeed.x -= 1; this.img = 'hero_1:left'; },
+			function () {
+				this.deltaSpeed.x -= 1;
+				this.img = 'hero_1:left';
+				this.stopSpeed.x = 1;
+			},
 			function () { this.deltaSpeed.x += 1; }
 		],
 		right: [
-			function () { this.deltaSpeed.x += 1; this.img = 'hero_1:right'; },
+			function () {
+				this.deltaSpeed.x += 1;
+				this.img = 'hero_1:right';
+				this.stopSpeed.x = 1;
+			},
 			function () { this.deltaSpeed.x -= 1; }
 		]
 	},
@@ -41,12 +57,11 @@ declare('User.Manipulator', {
 
 	// INIT -------------------------------------------------------------------------------------- /
 
-	get controller () {
-		return this.owner.settings.get('controller');
-	},
-
-	initialize: function (uses) {
+	initialize: function (controller, uses) {
 		this.keyboard = new atom.Keyboard();
+		this.controller = controller;
+
+		this.mouse = this.controller.mouse;
 
 		// TODO сделать замену клавишь на пользовательские
 
@@ -123,10 +138,17 @@ declare('User.Manipulator', {
 		var skill, skills = this.keys.skills;
 
 		for (skill in skills) if (skills.hasOwnProperty(skill)) {
-			this.keyboard.events.add(
-				skills[skill],
-				this.useSkill.bind(this, skill)
-			);
+			if (skills[skill] == 'click' || skills[skill] == 'contextmenu') {
+				this.mouse.events.add(
+					skills[skill],
+					this.useSkill.bind(this, skill)
+				);
+			} else {
+				this.keyboard.events.add(
+					skills[skill],
+					this.useSkill.bind(this, skill)
+				);
+			}
 		}
 		return this;
 	}

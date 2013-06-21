@@ -76,7 +76,7 @@ declare('Game.Controller', {
 	createUser: function () {
 		this.users = [new Game.User(this.layer, {
 			controller: this,
-			manipulator: new User.Manipulator(models.user.controls)
+			manipulator: new User.Manipulator(this, models.user.controls)
 		})];
 	},
 

@@ -90,11 +90,18 @@ Skills.Skill.skillsDefault = {
 				radius: 40,
 
 				cast_speed: 0.1,
-				move_speed: 0,
+				move_speed: 2000,
 
 				damage: 200,
 				
-				type: 'ground_aoe'
+				type: 'ground_aoe',
+
+				create: function () {
+
+				},
+				onUpdate: function (time) {
+					this.impulse( this.getVelocity().mul(time / 1000) );
+				}
 			},
 			{
 				img: 'skill:fire',
@@ -103,7 +110,14 @@ Skills.Skill.skillsDefault = {
 				cast_speed: 0.1,
 				move_speed: 50,
 				damage: 200,
-				type: 'ground'
+				type: 'ground',
+
+				create: function () {
+
+				},
+				onUpdate: function (time) {
+					this.impulse( this.getVelocity().mul(time / 1000) );
+				}
 			}
 		],
 		[
@@ -114,7 +128,14 @@ Skills.Skill.skillsDefault = {
 				cast_speed: 0.1,
 				move_speed: 50,
 				damage: 200,
-				type: 'ground'
+				type: 'ground',
+
+				create: function () {
+
+				},
+				onUpdate: function (time) {
+					this.impulse( this.getVelocity().mul(time / 1000) );
+				}
 			},
 			{
 				img: 'skill:fire',
@@ -123,7 +144,14 @@ Skills.Skill.skillsDefault = {
 				cast_speed: 0.1,
 				move_speed: 50,
 				damage: 200,
-				type: 'ground'
+				type: 'ground',
+
+				create: function () {
+
+				},
+				onUpdate: function (time) {
+					this.impulse( this.getVelocity().mul(time / 1000) );
+				}
 			}
 		]
 	]

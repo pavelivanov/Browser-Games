@@ -2,6 +2,7 @@ declare('Game.User', User.Default, {
 
 	currentHp: 500,
 	currentMana: 10,
+	stopSpeed: new Point(1,1),
 
 	skillsLearned: {
 		fire:   [0, [0, 0], [0, 0]],
@@ -100,8 +101,8 @@ declare('Game.User', User.Default, {
 	updateSpeed: function () {
 		// TODO рассчитывать замедления
 
-		this.speed.x = this.deltaSpeed.x * this.moveSpeed;
-		this.speed.y = this.deltaSpeed.y * this.moveSpeed;
+		this.speed.x = this.deltaSpeed.x * this.moveSpeed * this.stopSpeed.x;
+		this.speed.y = this.deltaSpeed.y * this.moveSpeed * this.stopSpeed.y;
 	},
 
 	onUpdate: function (time) {
@@ -111,15 +112,6 @@ declare('Game.User', User.Default, {
 	},
 
 	renderTo: function (ctx, resources) {
-//		var m = this.mouse,
-//			g = ctx.createRadialGradient(m.x, m.y, 40, m.x, m.y, 20),
-//			amb = 'rgba(0,0,0,0)';
-//
-//		g.addColorStop(0, 'rgba(0,0,0,1)');
-//		g.addColorStop(1, amb);
-//
-//		ctx.fill(this.shape, g);
-
 		ctx.drawImage({
 			image: resources.get('images').get(this.img),
 			draw : this.shape,

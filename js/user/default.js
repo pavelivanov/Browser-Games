@@ -35,10 +35,6 @@ declare('User.Default', App.Element, {
 		if (right > 0) shape.move(new Point(-right, 0));
 	},
 
-	onUpdate: function (time) {
-
-	},
-
 	renderTo: function (ctx) {
 		ctx.save();
 		ctx.restore();
